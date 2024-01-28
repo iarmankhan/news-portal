@@ -4,21 +4,29 @@ import { fetchCurrentUser } from "@/lib/fetch-current-user.ts";
 export const Route = createFileRoute("/_auth")({
   component: () => <AuthLayout />,
   beforeLoad: async ({ context }) => {
-    const { data } = await fetchCurrentUser();
+    try {
+      const { data } = await fetchCurrentUser();
 
-    if (data) {
-      context.auth.setUser(data);
-
-      throw redirect({
-        to: "/",
-      });
+      if (data) {
+        context.auth.setUser(data);
+        throw new Error("User already logged in");
+      }
+    } catch (error) {
+      if (
+        error &&
+        (error as { message: string }).message === "User already logged in"
+      ) {
+        throw redirect({
+          to: "/",
+        });
+      }
     }
   },
 });
 
 function AuthLayout() {
   return (
-    <div className="container">
+    <div className="container flex items-center justify-center w-full h-screen">
       <Outlet />
     </div>
   );

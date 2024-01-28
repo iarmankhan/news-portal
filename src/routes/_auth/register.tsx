@@ -1,19 +1,26 @@
-import { createFileRoute } from '@tanstack/react-router'
-import {AuthForm} from "@/components/auth-form.tsx";
+import { createFileRoute } from "@tanstack/react-router";
+import { AuthForm } from "@/components/auth-form.tsx";
+import { useRegister } from "@/hooks/use-register.ts";
 
-export const Route = createFileRoute('/_auth/register')({
+export const Route = createFileRoute("/_auth/register")({
   component: () => <Register />,
-})
-
+});
 
 function Register() {
+  const { register, isPending } = useRegister();
   return (
     <div>
-      <h1>Register</h1>
-      <AuthForm type='register' onSubmit={(values) => {
-        console.log(values)
-      }}/>
+      <AuthForm
+        type="register"
+        loading={isPending}
+        onSubmit={async (values) => {
+          await register({
+            email: values.email,
+            password: values.password,
+            name: values.name as string,
+          });
+        }}
+      />
     </div>
   );
 }
-

@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button.tsx";
 import { Input } from "@/components/ui/input.tsx";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { Link } from "@tanstack/react-router";
 
 interface AuthFormProps {
   type: "login" | "register";
@@ -41,54 +42,71 @@ export function AuthForm(props: AuthFormProps) {
   });
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        {type === "register" && (
+    <div className="w-[400px] bg-background shadow p-4 rounded-lg">
+      <h1 className="text-center my-2 font-bold text-2xl">
+        {type === "register" ? "Register" : "Login"}
+      </h1>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+          {type === "register" && (
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
-            name="name"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>E-mail</FormLabel>
                 <FormControl>
-                  <Input placeholder="Name" {...field} />
+                  <Input type="email" placeholder="E-mail" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-        )}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>E-mail</FormLabel>
-              <FormControl>
-                <Input type="email" placeholder="E-mail" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input placeholder="Password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={loading}>
-          {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-          {type === "register" ? "Register" : "Login"}
-        </Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={loading}>
+            {loading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+            {type === "register" ? "Register" : "Login"}
+          </Button>
+        </form>
+      </Form>
+
+      <div className="mt-4 text-sm">
+        {type === "register"
+          ? "Already have an account?"
+          : "Don't have an account?"}
+        <Link
+          to={type === "register" ? "/login" : "/register"}
+          className="ml-1 underline text-blue-500"
+        >
+          {type === "register" ? "Login" : "Register"}
+        </Link>
+      </div>
+    </div>
   );
 }

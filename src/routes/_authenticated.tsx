@@ -5,11 +5,15 @@ export const Route = createFileRoute("/_authenticated")({
   component: () => <AuthLayout />,
   beforeLoad: async ({ context, location }) => {
     if (!context.auth.isAuthenticated) {
-      const { data } = await fetchCurrentUser();
+      try {
+        const { data } = await fetchCurrentUser();
 
-      if (data) {
-        context.auth.setUser(data);
-        return;
+        if (data) {
+          context.auth.setUser(data);
+          return;
+        }
+      } catch (error) {
+        console.error(error);
       }
 
       throw redirect({
