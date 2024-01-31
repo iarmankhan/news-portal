@@ -22,14 +22,22 @@ interface NewsResponse {
 
 export const LIMIT = 12;
 
-export function useNews(search?: string, page: number = 1) {
+export function useNews(search?: string, category?: string, page: number = 1) {
   return useQuery<NewsResponse>({
-    queryKey: ["news", search, page],
+    queryKey: ["news", search, page, category],
     queryFn: async () => {
       const { data } = await fetchApi<NewsResponse>({
         url: "/news",
         method: "GET",
-        params: { page, limit: LIMIT, ...(search && { search }) },
+        params: {
+          page,
+          limit: LIMIT,
+          ...(search && { search }),
+          ...(category &&
+            category !== "all" && {
+              category,
+            }),
+        },
       });
 
       return data;

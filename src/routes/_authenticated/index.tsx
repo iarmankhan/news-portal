@@ -12,7 +12,9 @@ export const Route = createFileRoute("/_authenticated/")({
 function News() {
   const page = useNewsStore((state) => state.page);
   const search = useNewsStore((state) => state.search);
-  const { data, isLoading } = useNews(search, page);
+  const category = useNewsStore((state) => state.category);
+
+  const { data, isLoading } = useNews(search, category, page);
 
   const total = data?.total ?? 0;
   const totalPages = Math.ceil(total / LIMIT);
