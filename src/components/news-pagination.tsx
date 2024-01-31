@@ -31,7 +31,7 @@ export function NewsPagination({ totalPages }: NewsPaginationProps) {
       </Button>
       <Button
         variant="ghost"
-        disabled={page === totalPages}
+        disabled={page >= totalPages}
         onClick={() => {
           if (page < totalPages) {
             setPage(page + 1);
