@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { fetchCurrentUser } from "@/lib/fetch-current-user.ts";
+import { NavBar } from "@/components/nav-bar.tsx";
 
 export const Route = createFileRoute("/_authenticated")({
   component: () => <AuthLayout />,
@@ -28,8 +29,11 @@ export const Route = createFileRoute("/_authenticated")({
 
 function AuthLayout() {
   return (
-    <div className="container">
-      <Outlet />
+    <div className="container py-4">
+      <NavBar />
+      <div className="my-4">
+        <Outlet />
+      </div>
     </div>
   );
 }

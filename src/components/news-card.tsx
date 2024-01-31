@@ -8,7 +8,8 @@ interface NewsCardProps {
 export function NewsCard(props: NewsCardProps) {
   const { news } = props;
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-sm group cursor-pointer hover:shadow-md transition-all">
+    <a href={news.url} target="_blank" rel="noopener noreferrer">
+      <div className="bg-white rounded-lg overflow-hidden shadow-sm group cursor-pointer hover:shadow-md transition-all">
         <div className="flex flex-col items-start gap-2">
           {news.image_link ? (
             <img
@@ -32,6 +33,7 @@ export function NewsCard(props: NewsCardProps) {
             <div className="text-xs mt-1 text-gray-500">{news.author}</div>
           </div>
         </div>
-    </div>
+      </div>
+    </a>
   );
 }

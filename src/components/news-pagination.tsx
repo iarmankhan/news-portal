@@ -1,13 +1,7 @@
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination.tsx";
 import { useNewsStore } from "@/lib/news-store.ts";
+import { Button } from "@/components/ui/button.tsx";
+import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
+import { cn } from "@/lib/utils.ts";
 
 interface NewsPaginationProps {
   totalPages: number;
@@ -18,26 +12,39 @@ export function NewsPagination({ totalPages }: NewsPaginationProps) {
   const setPage = useNewsStore((state) => state.setPage);
 
   return (
-    <Pagination>
-      <PaginationContent>
-        <PaginationItem>
-          <PaginationPrevious
-            href="#"
-            onClick={() => {
-              if (page > 1) setPage(page - 1);
-            }}
-          />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationEllipsis />
-        </PaginationItem>
-        <PaginationItem>
-          <PaginationNext href="#" />
-        </PaginationItem>
-      </PaginationContent>
-    </Pagination>
+    <div className={cn("flex flex-row gap-4 items-center justify-center")}>
+      <Button
+        variant="ghost"
+        disabled={page === 1}
+        onClick={() => {
+          if (page > 1) {
+            setPage(page - 1);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
+        }}
+      >
+        <ChevronLeftIcon className="h-4 w-4" />
+        Previous
+      </Button>
+      <Button
+        variant="ghost"
+        disabled={page === totalPages}
+        onClick={() => {
+          if (page < totalPages) {
+            setPage(page + 1);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
+        }}
+      >
+        Next
+        <ChevronRightIcon className="h-4 w-4" />
+      </Button>
+    </div>
   );
 }
