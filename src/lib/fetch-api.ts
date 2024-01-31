@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 export const fetchApi = <T>(
   config: AxiosRequestConfig,
-  isAuthenticated?: boolean,
+  isAuthenticated: boolean = true,
 ) => {
   const token = localStorage.getItem("token");
 

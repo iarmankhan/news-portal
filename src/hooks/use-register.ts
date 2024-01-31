@@ -15,11 +15,14 @@ export function useRegister() {
   >({
     mutationKey: ["register"],
     mutationFn: async (data) => {
-      const response = await fetchApi({
-        url: "/auth/register",
-        method: "POST",
-        data,
-      });
+      const response = await fetchApi(
+        {
+          url: "/auth/register",
+          method: "POST",
+          data,
+        },
+        false,
+      );
 
       if (response.data) {
         await navigate({

@@ -20,11 +20,14 @@ export function useLogin() {
   >({
     mutationKey: ["login"],
     mutationFn: async (data) => {
-      const response = await fetchApi<LoginResponse>({
-        url: "/auth/login",
-        method: "POST",
-        data,
-      });
+      const response = await fetchApi<LoginResponse>(
+        {
+          url: "/auth/login",
+          method: "POST",
+          data,
+        },
+        false,
+      );
 
       if (response.data) {
         localStorage.setItem("token", response.data.access_token);
